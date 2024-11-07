@@ -24,6 +24,7 @@ public class ProductBasket {
     }
 
     public void printContents() {
+        int isSpecialCount = 0;
         if (productCount == 0) {
             System.out.println("В корзине пусто");
             return;
@@ -31,7 +32,13 @@ public class ProductBasket {
         for (int i = 0; i < productCount; i++) {
             System.out.println(products[i].getName() + ": " + products[i].getPrice());
         }
+        for (Product product : products) {
+            if (product.isSpecial()) {
+                isSpecialCount++;
+            }
+        }
         System.out.println("Итого: " + getTotalPrice());
+        System.out.println("Специальных товаров: " + isSpecialCount);
     }
 
     public boolean containsProduct(String name) {

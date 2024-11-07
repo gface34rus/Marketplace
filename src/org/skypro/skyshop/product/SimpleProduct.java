@@ -16,4 +16,9 @@ public class SimpleProduct extends Product {
     public int getPrice() {
         return normalPrice;
     }
+
+    @Override
+    public boolean isSpecial() {
+        return false;
+    }
 }

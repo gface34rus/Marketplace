@@ -20,4 +20,10 @@ public class DiscountedProduct extends Product {
     public int getPrice() {
         return basicPrice-((basicPrice/100)*percentDiscount);
     }
+
+    @Override
+    public boolean isSpecial() {
+        return true;
+    }
+
 }
