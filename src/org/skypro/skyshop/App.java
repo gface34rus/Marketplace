@@ -6,6 +6,7 @@ import org.skypro.skyshop.exception.BestResultNotFoundException;
 import org.skypro.skyshop.interfaces.Searchable;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
 
@@ -70,7 +71,7 @@ public class App {
         } catch (BestResultNotFoundException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
-
-
+        List<Product> removed = pb.removeProductsByName("");
+        System.out.println(removed);
     }
 }

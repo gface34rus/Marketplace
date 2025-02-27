@@ -3,39 +3,40 @@ package org.skypro.skyshop.search;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 import org.skypro.skyshop.interfaces.Searchable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SearchEngine {
-    public Searchable[] elements;
+    public List<Searchable> elements;
 
 
     public SearchEngine() {
     }
 
     public SearchEngine(int size) {
-        elements = new Searchable[size];
+        elements = List.of(new Searchable[size]);
     }
 
-    public Searchable[] search(String s) {
-        Searchable[] result = new Searchable[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-            if (elements[i].searchTerm().contains(s)) {
-                result[i] = elements[i];
+    public List<Searchable> search(String s) {
+        List<Searchable> result = new ArrayList<>(elements.size());
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).searchTerm().contains(s)) {
+                result.set(i, elements.get(i));
             }
         }
-        System.out.println(Arrays.toString(result));
+        System.out.println(result);
         return result;
     }
 
     public void add(Searchable searchable, int index) {
-        elements[index] = searchable;
+        elements.set(index, searchable);
     }
 
     @Override
     public String toString() {
         return "SearchEngine{" +
-                "elements=" + Arrays.toString(elements) +
+                "elements=" + Arrays.toString(new List[]{elements}) +
                 '}';
     }
 
@@ -56,6 +57,19 @@ public class SearchEngine {
         }
 
         return bestMatch;
+    }
+
+
+    public List<Searchable> findAllMatches(String search, List<Searchable> searchableItems) {
+        List<Searchable> matches = new ArrayList<>();
+        for (Searchable item : searchableItems) {
+            int count = countOccurrences(item.searchTerm(), search);
+            if (count > 0) {
+                matches.add(item); // Добавляем все подходящие элементы
+            }
+        }
+
+        return matches; // Возвращаем список всех подходящих результатов
     }
 
     private int countOccurrences(String str, String substring) {
