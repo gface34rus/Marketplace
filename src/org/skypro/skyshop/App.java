@@ -2,10 +2,14 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exception.BestResultNotFoundException;
+import org.skypro.skyshop.interfaces.Searchable;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
+
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -41,5 +45,32 @@ public class App {
         searchEngine.add(article2, 6);
         searchEngine.add(article3, 7);
         System.out.println("asdasd" + searchEngine);
+
+        List<Searchable> articles = List.of(
+                new Article("Hello world", "Hello world"),
+                new Article("Hello hello world", "Hello hello world"),
+                new Article("Goodbye world", "Goodbye world")
+        );
+
+        SearchEngine searchEngine2 = new SearchEngine();
+
+
+        // Сценарий 1: Нужный объект существует
+        try {
+            Searchable bestMatch = searchEngine2.findBestMatch("hello", articles);
+            System.out.println("Лучшее совпадение: " + bestMatch.searchTerm());
+        } catch (BestResultNotFoundException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // Сценарий 2: Нужный объект не существует
+        try {
+            Searchable bestMatch = searchEngine2.findBestMatch("nonexistent", articles);
+            System.out.println("Лучшее совпадение: " + bestMatch.searchTerm());
+        } catch (BestResultNotFoundException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+
     }
 }

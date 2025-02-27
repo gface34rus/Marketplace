@@ -8,6 +8,9 @@ public class DiscountedProduct extends Product {
 
     public DiscountedProduct(String name, int basicPrice, int percentDiscount) {
         super(name);
+        if (basicPrice <= 0) throw new IllegalArgumentException("Price cannot be less than or equal to zero");
+        if (percentDiscount < 0 || percentDiscount > 100)
+            throw new IllegalArgumentException("Discount percentage cannot be less than zero or more than 100");
         this.basicPrice = basicPrice;
         this.percentDiscount = percentDiscount;
 
@@ -15,12 +18,12 @@ public class DiscountedProduct extends Product {
 
     @Override
     public String toString() {
-        return getName()+": "+basicPrice+"%"+percentDiscount;
+        return getName() + ": " + basicPrice + "%" + percentDiscount;
     }
 
     @Override
     public int getPrice() {
-        return basicPrice-((basicPrice/100)*percentDiscount);
+        return basicPrice - ((basicPrice / 100) * percentDiscount);
     }
 
     @Override
