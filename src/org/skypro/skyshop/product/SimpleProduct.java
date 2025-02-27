@@ -7,10 +7,13 @@ public class SimpleProduct extends Product {
         return normalPrice;
     }
 
-    private int normalPrice;
+    final private int normalPrice;
 
     public SimpleProduct(String name, int normalPrice) {
         super(name);
+        if (normalPrice <= 0) {
+            throw new IllegalArgumentException("Price cannot be less than or equal to zero");
+        }
         this.normalPrice = normalPrice;
     }
 
@@ -41,7 +44,7 @@ public class SimpleProduct extends Product {
 
     @Override
     public String toString() {
-        return "SimpleProduct{ name= " +getName()+
+        return "SimpleProduct{ name= " + getName() +
                 " normalPrice=" + normalPrice +
                 '}';
     }
