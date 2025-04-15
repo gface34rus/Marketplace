@@ -8,24 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductBasket {
-    private Map<String, List<Product>> products = new HashMap<>();
+    final private Map<String, List<Product>> products = new HashMap<>();
     private int productCount = 0;
 
 
-    public void addProduct(Product product) {
+    public void addProduct(String category, Product product) {
         products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
         productCount++;
     }
 
-    public int getTotalPrice() {
-        int total = 0;
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                total += product.getPrice();
-            }
-        }
-        return total;
-    }
 
     public void printContents() {
         int isSpecialCount = 0;
@@ -60,5 +51,27 @@ public class ProductBasket {
             productCount -= removedProducts.size();
         }
         return removedProducts != null ? removedProducts : new ArrayList<>();
+    }
+
+    public int getTotalPrice() {
+        return products.values().stream()
+                .flatMap(List::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
+    }
+
+    public void printBasket() {
+        products.forEach((category, productList) -> {
+            System.out.println("Category: " + category);
+            productList.forEach(product -> System.out.println(product.getName() + " - " + product.getPrice()));
+        });
+        System.out.println("Special products count: " + getSpecialCount());
+    }
+
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(List::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 }

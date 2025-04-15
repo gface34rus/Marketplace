@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     public Set<Searchable> elements;
@@ -22,14 +23,9 @@ public class SearchEngine {
 
 
     public Set<Searchable> search(String s) {
-        Set<Searchable> result = new TreeSet<>(new SearchableComparator());
-        for (Searchable item : elements) {
-            if (item.searchTerm().contains(s)) {
-                result.add(item);
-            }
-        }
-        System.out.println(result);
-        return result;
+        return elements.stream()
+                .filter(item -> item.searchTerm().contains(s))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchableComparator())));
     }
 
     public void add(Searchable searchable) {
