@@ -12,10 +12,11 @@ public class SearchEngine {
 
 
     public SearchEngine() {
+        this.elements = new ArrayList<>(10);
     }
 
     public SearchEngine(int size) {
-        elements = List.of(new Searchable[size]);
+        this.elements = new ArrayList<>(size);
     }
 
     public List<Searchable> search(String s) {
@@ -30,6 +31,9 @@ public class SearchEngine {
     }
 
     public void add(Searchable searchable, int index) {
+        while (index >= elements.size()) {
+            elements.add(null);
+        }
         elements.set(index, searchable);
     }
 

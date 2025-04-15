@@ -33,7 +33,7 @@ public class App {
         pb.containsProduct("beer");
         //  pb.clearBasket();
         pb.printContents();
-        SearchEngine searchEngine = new SearchEngine(10);
+         SearchEngine searchEngine = new SearchEngine();
         Article article1 = new Article("one", "content");
         Article article2 = new Article("two", "content_2");
         Article article3 = new Article("three", "content_3");
