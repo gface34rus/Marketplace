@@ -11,6 +11,7 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
 
 import java.util.List;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -37,17 +38,17 @@ public class App {
         Article article1 = new Article("one", "content");
         Article article2 = new Article("two", "content_2");
         Article article3 = new Article("three", "content_3");
-        searchEngine.add(p1, 0);
-        searchEngine.add(p2, 1);
-        searchEngine.add(p3, 2);
-        searchEngine.add(p4, 3);
-        searchEngine.add(p5, 4);
-        searchEngine.add(article1, 5);
-        searchEngine.add(article2, 6);
-        searchEngine.add(article3, 7);
+        searchEngine.add(p1);
+        searchEngine.add(p2);
+        searchEngine.add(p3);
+        searchEngine.add(p4);
+        searchEngine.add(p5);
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
         System.out.println("asdasd" + searchEngine);
 
-        List<Searchable> articles = List.of(
+        Set<Searchable> articles = Set.of(
                 new Article("Hello world", "Hello world"),
                 new Article("Hello hello world", "Hello hello world"),
                 new Article("Goodbye world", "Goodbye world")

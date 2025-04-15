@@ -3,48 +3,47 @@ package org.skypro.skyshop.search;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 import org.skypro.skyshop.interfaces.Searchable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SearchEngine {
-    public List<Searchable> elements;
+    public Set<Searchable> elements;
 
 
     public SearchEngine() {
-        this.elements = new ArrayList<>(10);
+        this.elements = new HashSet<>(10);
     }
 
     public SearchEngine(int size) {
-        this.elements = new ArrayList<>(size);
+        this.elements = new HashSet<>(size);
     }
 
-    public List<Searchable> search(String s) {
-        List<Searchable> result = new ArrayList<>(elements.size());
-        for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i).searchTerm().contains(s)) {
-                result.set(i, elements.get(i));
+
+    public Set<Searchable> search(String s) {
+        Set<Searchable> result = new TreeSet<>(new SearchableComparator());
+        for (Searchable item : elements) {
+            if (item.searchTerm().contains(s)) {
+                result.add(item);
             }
         }
         System.out.println(result);
         return result;
     }
 
-    public void add(Searchable searchable, int index) {
-        while (index >= elements.size()) {
-            elements.add(null);
-        }
-        elements.set(index, searchable);
+    public void add(Searchable searchable) {
+        elements.add(searchable);
     }
 
     @Override
     public String toString() {
         return "SearchEngine{" +
-                "elements=" + Arrays.toString(new List[]{elements}) +
+                "elements=" + elements +
                 '}';
     }
 
-    public Searchable findBestMatch(String search, List<Searchable> searchableItems) throws BestResultNotFoundException {
+    public Searchable findBestMatch(String search, Set<Searchable> searchableItems) throws BestResultNotFoundException {
         Searchable bestMatch = null;
         int maxCount = 0;
 
@@ -64,16 +63,15 @@ public class SearchEngine {
     }
 
 
-    public List<Searchable> findAllMatches(String search, List<Searchable> searchableItems) {
-        List<Searchable> matches = new ArrayList<>();
+    public Set<Searchable> findAllMatches(String search, Set<Searchable> searchableItems) {
+        Set<Searchable> matches = new HashSet<>();
         for (Searchable item : searchableItems) {
             int count = countOccurrences(item.searchTerm(), search);
             if (count > 0) {
-                matches.add(item); // Добавляем все подходящие элементы
+                matches.add(item);
             }
         }
-
-        return matches; // Возвращаем список всех подходящих результатов
+        return matches;
     }
 
     private int countOccurrences(String str, String substring) {
@@ -84,7 +82,17 @@ public class SearchEngine {
             count++;
             index += substring.length();
         }
-
         return count;
+    }
+
+    private static class SearchableComparator implements Comparator<Searchable> {
+        @Override
+        public int compare(Searchable o1, Searchable o2) {
+            int lengthComparison = Integer.compare(o2.searchTerm().length(), o1.searchTerm().length());
+            if (lengthComparison != 0) {
+                return lengthComparison;
+            }
+            return o1.searchTerm().compareTo(o2.searchTerm());
+        }
     }
 }
