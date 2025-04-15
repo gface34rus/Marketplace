@@ -39,4 +39,17 @@ public final class Article implements Searchable {
         Searchable.super.getStringRepresentation(searchable);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Article)) return false;
+        Article other = (Article) obj;
+        return title.equals(other.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return title.hashCode();
+    }
+
 }
