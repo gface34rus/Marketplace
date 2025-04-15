@@ -22,19 +22,24 @@ public class App {
         SimpleProduct p5 = new SimpleProduct("xbox", 2000);
         SimpleProduct p6 = new SimpleProduct("car", 20000);
         ProductBasket pb = new ProductBasket();
-        pb.addProduct(p1);
-        pb.addProduct(p2);
-        pb.addProduct(p3);
-        pb.addProduct(p4);
-        pb.addProduct(p5);
-        pb.addProduct(p6);
-        pb.printContents();
-        pb.getTotalPrice();
+
+        // Изменяем вызов метода addProduct, добавляя категорию
+        pb.addProduct("Electronics", p1);
+        pb.addProduct("Electronics", p2);
+        pb.addProduct("Computers", p3);
+        pb.addProduct("Gaming", p4);
+        pb.addProduct("Gaming", p5);
+        pb.addProduct("Vehicles", p6);
+
+        pb.printBasket(); // Изменяем на printBasket
+        System.out.println("Total Price: " + pb.getTotalPrice()); // Выводим общую стоимость
+        // Убедитесь, что метод containsProduct существует
         pb.containsProduct("tv");
         pb.containsProduct("beer");
-        //  pb.clearBasket();
-        pb.printContents();
-         SearchEngine searchEngine = new SearchEngine();
+        pb.clearBasket(); // Если метод clearBasket существует
+        pb.printBasket(); // Изменяем на printBasket
+
+        SearchEngine searchEngine = new SearchEngine();
         Article article1 = new Article("one", "content");
         Article article2 = new Article("two", "content_2");
         Article article3 = new Article("three", "content_3");
@@ -46,7 +51,7 @@ public class App {
         searchEngine.add(article1);
         searchEngine.add(article2);
         searchEngine.add(article3);
-        System.out.println("asdasd" + searchEngine);
+        System.out.println("Search Engine: " + searchEngine);
 
         Set<Searchable> articles = Set.of(
                 new Article("Hello world", "Hello world"),
@@ -55,7 +60,6 @@ public class App {
         );
 
         SearchEngine searchEngine2 = new SearchEngine();
-
 
         // Сценарий 1: Нужный объект существует
         try {
@@ -72,6 +76,8 @@ public class App {
         } catch (BestResultNotFoundException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
+
+        // Убедитесь, что метод removeProductsByName существует
         List<Product> removed = pb.removeProductsByName("");
         System.out.println(removed);
     }
