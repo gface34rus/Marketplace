@@ -58,7 +58,6 @@ public class SearchEngine {
         return bestMatch;
     }
 
-
     public Set<Searchable> findAllMatches(String search, Set<Searchable> searchableItems) {
         Set<Searchable> matches = new HashSet<>();
         for (Searchable item : searchableItems) {
